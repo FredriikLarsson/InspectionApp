@@ -7,7 +7,6 @@ class AddCarGridList extends StatefulWidget {
 
 class _AddCarGridListState extends State<AddCarGridList> {
   int _carIndex = -1; //Keep track which vehicletype box is currently active(being used by user)
-  int _testvar = 2;
 
   @override
   Widget build(BuildContext context) {
