@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:inspection_app/components/homePageCarList.dart';
 import 'package:inspection_app/pages/addCar_Page.dart';
 
+
 class HomePage extends StatefulWidget {
   @override
   _HomePageState createState() => _HomePageState();
@@ -9,6 +10,7 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   int _currentIndex = 0; //Which icon in bottomnavigationbar is currently active.
+
 
   //Different pages in the app.
   final List<Widget> _children = [
