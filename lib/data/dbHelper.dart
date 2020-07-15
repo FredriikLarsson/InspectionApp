@@ -2,53 +2,53 @@ import 'dart:async';
 import 'dart:io' as io;
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
-import 'package:inspection_app/data/cars.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:inspection_app/data/car.dart';
 
 class DBHelper {
   static Database _db;
   static const String ID = "id";
   static const String REGNR = "regNr";
-  static const String ICON = "icon";
-  static const String INSPECTIONDATE = "inspectionDate";
-  static const String TABLE = "Cars";
-  static const String DB_NAME = "cars.db";
+  static const String CARICON = "carIcon";
+  static const String TABLE = "Car";
+  static const String DB_NAME = "car.db";
 
 
   Future<Database> get db async {
     if (_db != null) {
       return _db;
-    } else {
+    }
       _db = await initDb();
       return _db;
-    }
   }
 
   initDb() async {
     io.Directory documentsDirectory = await getApplicationDocumentsDirectory();
     String path = join(documentsDirectory.path, DB_NAME);
     var db = await openDatabase(path, version: 1, onCreate: _onCreate);
+    return db;
   }
 
   _onCreate(Database db, int version) async {
-    await db.execute("CREATE TABLE $TABLE ($ID INTEGER PRIMARY KEY, $REGNR TEXT, $ICON INTEGER, $INSPECTIONDATE TEXT");
+    await db.execute("CREATE TABLE $TABLE ($ID INTEGER PRIMARY KEY, $REGNR TEXT, $CARICON INTEGER)");
   }
 
-  Future<SavedCars> save (SavedCars savedCars) async {
+  Future<Car> save (Car car) async {
     var dbClient = await db;
-    savedCars.id = await dbClient.insert(TABLE, savedCars.toMap());
+    car.id = await dbClient.insert(TABLE, car.toMap());
+    return car;
   }
 
-  Future<List<SavedCars>> getSavedCars() async {
+  Future<List<Car>> getCars() async {
     var dbClient = await db;
-    List<Map> maps = await dbClient.query(TABLE, columns: [ID, REGNR, ICON, INSPECTIONDATE]);
-    List<SavedCars> savedCars = [];
-    if (maps.length > 0){
-      for(int i=0; i< maps.length; i++) {
-        savedCars.add(SavedCars.fromMap(maps[i]));
+    List<Map> maps = await dbClient.query(TABLE, columns: [ID, REGNR, CARICON]);
+    List<Car> cars = [];
+    if (maps.length > 0) {
+      for (int i = 0; i < maps.length; i++) {
+        cars.add(Car.fromMap(maps[i]));
       }
     }
-    return savedCars;
+    return cars;
   }
 
   Future<int> delete(int id) async {
@@ -56,13 +56,14 @@ class DBHelper {
     return await dbClient.delete(TABLE, where: "$ID = ?", whereArgs: [id]);
   }
 
-  Future<int> update(SavedCars savedCars) async {
+  Future<int> update(Car car) async {
     var dbClient = await db;
-    return await dbClient.update(TABLE, savedCars.toMap(), where:"$ID = ?", whereArgs: [savedCars.id]);
+    return await dbClient.update(TABLE, car.toMap(), where: "$ID = ?", whereArgs: [car.id]);
   }
 
   Future close() async {
     var dbClient = await db;
     dbClient.close();
   }
+
 }
