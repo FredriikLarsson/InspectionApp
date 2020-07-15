@@ -13,13 +13,12 @@ class DBHelper {
   static const String TABLE = "Car";
   static const String DB_NAME = "car.db";
 
-
   Future<Database> get db async {
     if (_db != null) {
       return _db;
     }
-      _db = await initDb();
-      return _db;
+    _db = await initDb();
+    return _db;
   }
 
   initDb() async {
@@ -30,10 +29,11 @@ class DBHelper {
   }
 
   _onCreate(Database db, int version) async {
-    await db.execute("CREATE TABLE $TABLE ($ID INTEGER PRIMARY KEY, $REGNR TEXT, $CARICON INTEGER)");
+    await db.execute(
+        "CREATE TABLE $TABLE ($ID INTEGER PRIMARY KEY, $REGNR TEXT, $CARICON INTEGER)");
   }
 
-  Future<Car> save (Car car) async {
+  Future<Car> save(Car car) async {
     var dbClient = await db;
     car.id = await dbClient.insert(TABLE, car.toMap());
     return car;
@@ -58,12 +58,12 @@ class DBHelper {
 
   Future<int> update(Car car) async {
     var dbClient = await db;
-    return await dbClient.update(TABLE, car.toMap(), where: "$ID = ?", whereArgs: [car.id]);
+    return await dbClient
+        .update(TABLE, car.toMap(), where: "$ID = ?", whereArgs: [car.id]);
   }
 
   Future close() async {
     var dbClient = await db;
     dbClient.close();
   }
-
 }

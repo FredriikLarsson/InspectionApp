@@ -62,7 +62,10 @@ class _CarDetailPageState extends State<CarDetailPage> {
                     padding: const EdgeInsets.only(top: 14),
                     child: RaisedButton(
                         onPressed: () {
-                          Navigator.push(context, MaterialPageRoute(builder: (context) => BookInspectionPage()));
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => BookInspectionPage()));
                         },
                         textColor: Colors.white,
                         padding: const EdgeInsets.all(0.0),

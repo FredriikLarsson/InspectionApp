@@ -2,24 +2,23 @@ import 'package:flutter/material.dart';
 import 'package:inspection_app/components/homePageCarList.dart';
 import 'package:inspection_app/pages/addCar_Page.dart';
 
-
 class HomePage extends StatefulWidget {
   @override
   _HomePageState createState() => _HomePageState();
 }
 
 class _HomePageState extends State<HomePage> {
-  int _currentIndex = 0; //Which icon in bottomnavigationbar is currently active.
-
+  int _currentIndex =
+      0; //Which icon in bottomnavigationbar is currently active.
 
   //Different pages in the app.
   final List<Widget> _children = [
-        HomePageCarList(),
-        Container(),
-        Container(),
-        AddCarPage(),
-        Container(),
-      ];
+    HomePageCarList(),
+    Container(),
+    Container(),
+    AddCarPage(),
+    Container(),
+  ];
 
   @override
   Widget build(BuildContext context) {
@@ -30,12 +29,14 @@ class _HomePageState extends State<HomePage> {
         leading: Icon(Icons.ac_unit),
       ),
 
-      body: _children[_currentIndex], //View a specific page from the _children list based on _currentIndex.
+      body: _children[_currentIndex],
+      //View a specific page from the _children list based on _currentIndex.
 
       bottomNavigationBar: Theme(
         data: Theme.of(context).copyWith(canvasColor: Colors.blue),
         child: BottomNavigationBar(
-          onTap: onTabTapped, //onTap run function to rebuild another page
+          onTap: onTabTapped,
+          //onTap run function to rebuild another page
           type: BottomNavigationBarType.fixed,
           selectedItemColor: Colors.indigo,
           unselectedItemColor: Colors.white,

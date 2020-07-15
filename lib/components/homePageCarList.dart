@@ -11,7 +11,6 @@ class HomePageCarList extends StatefulWidget {
 }
 
 class _HomePageCarListState extends State<HomePageCarList> {
-
   Future<List<Car>> cars;
   var dbHelper;
 
@@ -30,25 +29,28 @@ class _HomePageCarListState extends State<HomePageCarList> {
 
   SingleChildScrollView dataTable(List<Car> cars) {
     return SingleChildScrollView(
-        scrollDirection: Axis.vertical,
-        child: DataTable(
-          headingRowHeight: 0,
-          columns: [
-            DataColumn(label: Text("")),
-            DataColumn(label: Text("")),
-          ],
-          rows: cars.map((car) =>
-              DataRow(
-                  cells: [
-                    DataCell(
-                      _convertToIcon(car.carIcon)
-                    ),
-                    DataCell(
-                      Text(car.regNr),),
-                  ]
-              ),
-          ).toList(),
-        ),
+      scrollDirection: Axis.vertical,
+      child: DataTable(
+        dataRowHeight: 70,
+        columnSpacing: 90,
+        headingRowHeight: 0,
+        columns: [
+          DataColumn(label: Text("")),
+          DataColumn(label: Text("")),
+          DataColumn(label: Text("")),
+        ],
+        rows: cars
+            .map(
+              (car) => DataRow(cells: [
+                DataCell(_convertToIcon(car.carIcon)),
+                DataCell(
+                  Text(car.regNr),
+                ),
+                DataCell(Text("Besiktad")),
+              ]),
+            )
+            .toList(),
+      ),
     );
   }
 
@@ -56,21 +58,21 @@ class _HomePageCarListState extends State<HomePageCarList> {
   Widget build(BuildContext context) {
     return Container(
         child: FutureBuilder(
-          future: cars,
-          builder: (context, snapshot) {
-            if (snapshot.hasData) {
-              return dataTable(snapshot.data);
-            } else if (snapshot.data == null || snapshot.data.length == 0) {
-              return Text("no data found");
-            } else {
-              return CircularProgressIndicator();
-            }
-          },
-        ));
+      future: cars,
+      builder: (context, snapshot) {
+        if (snapshot.hasData) {
+          return dataTable(snapshot.data);
+        } else if (snapshot.data == null || snapshot.data.length == 0) {
+          return Text("no data found");
+        } else {
+          return CircularProgressIndicator();
+        }
+      },
+    ));
   }
 
   Icon _convertToIcon(int carIcon) {
-    List <IconData> _icons = [
+    List<IconData> _icons = [
       Icons.directions_car,
       Icons.airport_shuttle,
       Icons.directions_bus,
@@ -81,69 +83,25 @@ class _HomePageCarListState extends State<HomePageCarList> {
       Icons.directions_bike
     ];
 
-    if(carIcon == -1) {
-      return Icon(Icons.close);
+    if (carIcon == -1) {
+      return Icon(
+        Icons.close,
+        color: Colors.black,
+      );
     } else {
-      return Icon(_icons[carIcon]);
+      return Icon(
+        _icons[carIcon],
+        color: Colors.black,
+      );
     }
   }
 }
 
-
-
-
-
-
-
-
-
-
-
-  /*
-  final List<IconData> carListIcon = [
-    Icons.airport_shuttle,
-    Icons.drive_eta,
-    Icons.threesixty,
-    Icons.directions_bus,
-    Icons.threesixty,
-    Icons.directions_bus,
-    Icons.airport_shuttle,
-    Icons.drive_eta,
-    Icons.threesixty,
-    Icons.directions_bus,
-    Icons.threesixty,
-    Icons.directions_bus
-  ];
-  final List<String> carListText = [
-    "Körförbud",
-    "Körförbud",
-    "Körförbud",
-    "4 dagar   ",
-    "4 dagar   ",
-    "4 dagar   ",
-    "Besiktad",
-    "Besiktad",
-    "Besiktad",
-    "Besiktad",
-    "Besiktad",
-    "Besiktad"
-  ];*/
-
-
-
-
-
-  /*  String _showCarDetail;*/
-
-
-
-  /*    return ListView.builder(
+/*    return ListView.builder(
         itemCount: 17,
         itemBuilder: (BuildContext context, int index) {
           return _buildItems(context, index); //Calls for a method to build the items in the listview
         });*/
-
-
 
 /*  Widget _buildItems(BuildContext context, int index) {
     return GestureDetector(
@@ -176,7 +134,7 @@ class _HomePageCarListState extends State<HomePageCarList> {
     );
   }*/
 
-  //Method to check the status of the car and colorcode the text depending on the value it have
+//Method to check the status of the car and colorcode the text depending on the value it have
 /*  Color _checkTextColor(index) {
     if (carListText[index] == "Körförbud") {
       return Colors.red;
@@ -186,4 +144,3 @@ class _HomePageCarListState extends State<HomePageCarList> {
       return Colors.orangeAccent;
     }
   }*/
-

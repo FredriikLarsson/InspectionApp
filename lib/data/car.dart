@@ -1,17 +1,15 @@
-
 class Car {
   int id;
   String regNr;
   int carIcon;
 
-
   Car(this.id, this.regNr, this.carIcon);
 
   Map<String, dynamic> toMap() {
-    var map = <String, dynamic> {
-      "id" : id,
-      "regNr" : regNr,
-      "carIcon" : carIcon,
+    var map = <String, dynamic>{
+      "id": id,
+      "regNr": regNr,
+      "carIcon": carIcon,
     };
     return map;
   }
