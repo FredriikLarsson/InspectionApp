@@ -32,7 +32,7 @@ class _HomePageCarListState extends State<HomePageCarList> {
       scrollDirection: Axis.vertical,
       child: DataTable(
         dataRowHeight: 70,
-        columnSpacing: 90,
+        columnSpacing: 93,
         headingRowHeight: 0,
         columns: [
           DataColumn(label: Text("")),
@@ -42,11 +42,17 @@ class _HomePageCarListState extends State<HomePageCarList> {
         rows: cars
             .map(
               (car) => DataRow(cells: [
-                DataCell(_convertToIcon(car.carIcon)),
+                DataCell(_convertToIcon(car.carIcon), onTap: () {
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => CarDetailPage(car.regNr)));
+                }),
                 DataCell(
-                  Text(car.regNr),
+                  Text(car.regNr), onTap: () {
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => CarDetailPage(car.regNr)));
+                }
                 ),
-                DataCell(Text("Besiktad")),
+                DataCell(Text("Besiktad"), onTap: () {
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => CarDetailPage(car.regNr)));
+                }),
               ]),
             )
             .toList(),
@@ -60,10 +66,10 @@ class _HomePageCarListState extends State<HomePageCarList> {
         child: FutureBuilder(
       future: cars,
       builder: (context, snapshot) {
-        if (snapshot.hasData) {
+        if (snapshot.hasData && snapshot.data.length > 0) {
           return dataTable(snapshot.data);
         } else if (snapshot.data == null || snapshot.data.length == 0) {
-          return Text("no data found");
+          return Text("No data found");
         } else {
           return CircularProgressIndicator();
         }
@@ -97,11 +103,6 @@ class _HomePageCarListState extends State<HomePageCarList> {
   }
 }
 
-/*    return ListView.builder(
-        itemCount: 17,
-        itemBuilder: (BuildContext context, int index) {
-          return _buildItems(context, index); //Calls for a method to build the items in the listview
-        });*/
 
 /*  Widget _buildItems(BuildContext context, int index) {
     return GestureDetector(
@@ -109,30 +110,7 @@ class _HomePageCarListState extends State<HomePageCarList> {
       //OnTap go to the detailpage of a specific car from the carList
       onTap: () {
         Navigator.push(context, MaterialPageRoute(builder: (context) => CarDetailPage(carList[index])));
-      },
-      child: Container(
-          padding: EdgeInsets.symmetric(horizontal: 8.0),
-          height: 70,
-          child: Card(
-              child: Row(
-            children: <Widget>[
-              Container(
-                  padding: EdgeInsets.only(left: 8),
-                  child: Icon(carListIcon[index])),
-              Expanded(
-                  child: Text(
-                carList[index],
-                textAlign: TextAlign.center,
-                style: TextStyle(fontSize: 17, fontWeight: FontWeight.bold),
-              )),
-              Container(
-                  padding: EdgeInsets.only(right: 8),
-                  child: Text(carListText[index],
-                      style: TextStyle(color: _checkTextColor(index)))),
-            ],
-          ))),
-    );
-  }*/
+      },*/
 
 //Method to check the status of the car and colorcode the text depending on the value it have
 /*  Color _checkTextColor(index) {

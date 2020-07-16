@@ -14,20 +14,20 @@ class CarDetailPage extends StatefulWidget {
 class _CarDetailPageState extends State<CarDetailPage> {
   final List<String> listItem = [
     "Regnr",
-    "HWP566",
+    "---",
     "Bilmodell",
-    "BWM118D",
+    "---",
     "Färg",
-    "Röd",
+    "---",
     "Årsmodell",
-    "2011",
+    "---",
     "Mer biluppgifter",
     "Fordonsstatus",
-    "Påställd (2019-10-10)",
+    "---",
     "Mätarställning",
-    "134000",
+    "---",
     "Bilskatt",
-    "3005kr"
+    "---"
   ];
 
   bool isExpanded = false;
@@ -57,7 +57,7 @@ class _CarDetailPageState extends State<CarDetailPage> {
               child: Column(
                 children: <Widget>[
                   Text("Ska senast besiktas", style: _textStyle(1)),
-                  Text("2020-03-15", style: _textStyle(2)),
+                  Text("---", style: _textStyle(2)),
                   Padding(
                     padding: const EdgeInsets.only(top: 14),
                     child: RaisedButton(
@@ -100,6 +100,14 @@ class _CarDetailPageState extends State<CarDetailPage> {
     } else {
       return TextStyle(
           fontSize: 18, fontWeight: FontWeight.bold, color: Colors.black);
+    }
+  }
+
+  Widget _buildList(BuildContext context, int index) {
+    if ((index % 2 == 0) && (index < 8) || ((index % 2 == 1) && index > 8) || index == 8) {
+      return _buildItems(context, index);
+    } else {
+      //
     }
   }
 

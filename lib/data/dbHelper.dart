@@ -51,6 +51,27 @@ class DBHelper {
     return cars;
   }
 
+/*  Future<List<dynamic>> getCarInfo(Car car) async {
+    var dbClient = await db;
+
+    // get single row
+    List<String> columnsToSelect = [
+      DBHelper.ID,
+      DBHelper.REGNR,
+      DBHelper.CARICON,
+    ];
+    String whereString = '${DBHelper.REGNR} = ?';
+    String rowRegNr = car.regNr;
+    List<dynamic> whereArguments = [rowRegNr];
+    List<Map> result = await dbClient.query(
+        DBHelper.TABLE,
+        columns: columnsToSelect,
+        where: whereString,
+        whereArgs: whereArguments);
+
+    return result;
+  }*/
+
   Future<int> delete(int id) async {
     var dbClient = await db;
     return await dbClient.delete(TABLE, where: "$ID = ?", whereArgs: [id]);
