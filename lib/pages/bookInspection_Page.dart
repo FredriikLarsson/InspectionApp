@@ -6,6 +6,8 @@ class BookInspectionPage extends StatefulWidget {
 }
 
 class _BookInspectionPageState extends State<BookInspectionPage> {
+
+  //The current value that is picked in the dropdownmenu
   String dropDownValue = "Välj ett län";
 
   @override
@@ -21,6 +23,8 @@ class _BookInspectionPageState extends State<BookInspectionPage> {
             height: 2,
             color: Colors.blue,
           ),
+
+          //Dropdownbutton is showing chosen value
           value: dropDownValue,
           items: <String>["Välj ett län", "Norrbotten", "Västerbotten"]
               .map<DropdownMenuItem<String>>((String value) {
@@ -29,6 +33,8 @@ class _BookInspectionPageState extends State<BookInspectionPage> {
               child: Text(value),
             );
           }).toList(),
+
+          //If user change the value then this calls for a rebuild of page and changing dropDownValue to newValue
           onChanged: (String newValue) {
             setState(() {
               dropDownValue = newValue;

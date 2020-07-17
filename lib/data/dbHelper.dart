@@ -13,6 +13,7 @@ class DBHelper {
   static const String TABLE = "Car";
   static const String DB_NAME = "car.db";
 
+  //Check if there is an existing database and if not then initialize a new one
   Future<Database> get db async {
     if (_db != null) {
       return _db;
@@ -21,6 +22,7 @@ class DBHelper {
     return _db;
   }
 
+  //Search for a documentsdirectory to initialize the database
   initDb() async {
     io.Directory documentsDirectory = await getApplicationDocumentsDirectory();
     String path = join(documentsDirectory.path, DB_NAME);
@@ -28,17 +30,20 @@ class DBHelper {
     return db;
   }
 
+  //Create the database
   _onCreate(Database db, int version) async {
     await db.execute(
         "CREATE TABLE $TABLE ($ID INTEGER PRIMARY KEY, $REGNR TEXT, $CARICON INTEGER)");
   }
 
+  //Insert a new car to the database
   Future<Car> save(Car car) async {
     var dbClient = await db;
     car.id = await dbClient.insert(TABLE, car.toMap());
     return car;
   }
 
+  //get all the cars from the database
   Future<List<Car>> getCars() async {
     var dbClient = await db;
     List<Map> maps = await dbClient.query(TABLE, columns: [ID, REGNR, CARICON]);
@@ -51,38 +56,20 @@ class DBHelper {
     return cars;
   }
 
-/*  Future<List<dynamic>> getCarInfo(Car car) async {
-    var dbClient = await db;
-
-    // get single row
-    List<String> columnsToSelect = [
-      DBHelper.ID,
-      DBHelper.REGNR,
-      DBHelper.CARICON,
-    ];
-    String whereString = '${DBHelper.REGNR} = ?';
-    String rowRegNr = car.regNr;
-    List<dynamic> whereArguments = [rowRegNr];
-    List<Map> result = await dbClient.query(
-        DBHelper.TABLE,
-        columns: columnsToSelect,
-        where: whereString,
-        whereArgs: whereArguments);
-
-    return result;
-  }*/
-
+  //Delete a row in the database table
   Future<int> delete(int id) async {
     var dbClient = await db;
     return await dbClient.delete(TABLE, where: "$ID = ?", whereArgs: [id]);
   }
 
+  //Update a row in the database table
   Future<int> update(Car car) async {
     var dbClient = await db;
     return await dbClient
         .update(TABLE, car.toMap(), where: "$ID = ?", whereArgs: [car.id]);
   }
 
+  //Close the database
   Future close() async {
     var dbClient = await db;
     dbClient.close();

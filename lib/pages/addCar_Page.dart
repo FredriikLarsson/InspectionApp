@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:inspection_app/data/car.dart';
 import 'package:inspection_app/data/dbHelper.dart';
@@ -10,18 +9,24 @@ class AddCarPage extends StatefulWidget {
 }
 
 class _AddCarPageState extends State<AddCarPage> {
+
+  //User textfield input of regnr, icon and nickname to save in database
   String regNr;
+  int _carIconSelection = -1;
   String carName;
+
+  //Initialize and store database
   var dbHelper;
+
+  //Lists to see which icon the user has picked in the gridlist of icons
   List<bool> _selections = List.generate(4, (_) => false);
   List<bool> _selectionsSecondRow = List.generate(4, (_) => false);
-  int _carIconSelection = -1;
+
+  //Controller for checking textfield input on regnr and nickname
+  final myController = TextEditingController();
+  final myControllerName = TextEditingController();
 
   final formKey = GlobalKey<FormState>();
-
-  final myController =
-      TextEditingController(); //Controller for checking textfield input
-  final myControllerName = TextEditingController();
 
   @override
   void dispose() {
@@ -36,6 +41,7 @@ class _AddCarPageState extends State<AddCarPage> {
     dbHelper = DBHelper();
   }
 
+  //Add a new row(Car object) to the database table
   validate() {
     if (formKey.currentState.validate()) {
       formKey.currentState.save();
@@ -56,6 +62,8 @@ class _AddCarPageState extends State<AddCarPage> {
                 mainAxisSize: MainAxisSize.min,
                 verticalDirection: VerticalDirection.down,
                 children: <Widget>[
+
+                  //Inputfield for regnr where inputvalue is saved to regnr variable that is used in saving a new car object to the database
                   TextFormField(
                     controller: myController,
                     keyboardType: TextInputType.text,
@@ -66,14 +74,17 @@ class _AddCarPageState extends State<AddCarPage> {
                     validator: (val) => val.length == 0 ? "Regnr saknas" : null,
                     onSaved: (val) => regNr = val,
                   ),
+
+                  //Inputfield for nickname where inputvalue is saved to carName variable that is going to be used for saving new car objects to the database
                   TextFormField(
                     controller: myControllerName,
                     textAlign: TextAlign.center,
                     keyboardType: TextInputType.text,
-                    decoration:
-                        InputDecoration(hintText: "Smeknamn (valfritt)"),
+                    decoration: InputDecoration(hintText: "Smeknamn (valfritt)"),
                     onSaved: (val) => carName = val,
                   ),
+
+                  //Gridlist with icons of different vehicle types
                   Container(
                     padding: EdgeInsets.symmetric(vertical: 30),
                     child: Column(children: <Widget>[
@@ -82,16 +93,21 @@ class _AddCarPageState extends State<AddCarPage> {
                         height: 10,
                       ),
                       ToggleButtons(
-                        constraints:
-                            BoxConstraints(minWidth: 60, minHeight: 60),
+                        constraints: BoxConstraints(minWidth: 60, minHeight: 60),
                         borderRadius: BorderRadius.circular(5),
+
+                        //The first row of icons in the gridlist
                         children: <Widget>[
                           Icon(Icons.directions_car),
                           Icon(Icons.airport_shuttle),
                           Icon(Icons.directions_bus),
                           Icon(Icons.local_shipping),
                         ],
+
                         isSelected: _selections,
+
+                        //If user choose any of the icons in the first row that icon change isSelected "state"
+                        // to the opposite of the current state and everything else to false
                         onPressed: (int index) {
                           setState(() {
                             for (int i = 0; i < _selections.length; i++) {
@@ -109,10 +125,13 @@ class _AddCarPageState extends State<AddCarPage> {
                           });
                         },
                       ),
+
                       ToggleButtons(
                         constraints:
                             BoxConstraints(minWidth: 60, minHeight: 60),
                         borderRadius: BorderRadius.circular(5),
+
+                        //The second row of icons in the gridlist
                         children: <Widget>[
                           Icon(Icons.motorcycle),
                           Icon(Icons.local_car_wash),
@@ -120,6 +139,9 @@ class _AddCarPageState extends State<AddCarPage> {
                           Icon(Icons.directions_bike)
                         ],
                         isSelected: _selectionsSecondRow,
+
+                        //If user choose any of the icons in the second row that icon change isSelected "state"
+                        // to the opposite of the current state and everything else to false
                         onPressed: (int index) {
                           setState(() {
                             for (int i = 0;
@@ -142,12 +164,15 @@ class _AddCarPageState extends State<AddCarPage> {
                       ),
                     ]),
                   ),
+
                   _buildButton(),
+
                 ],
               ),
             )));
   }
 
+  //Builds a button that calls for a validation to save a new car object to database
   _buildButton() {
     return Container(
       constraints: BoxConstraints(maxWidth: double.infinity, minHeight: 120),
@@ -177,7 +202,7 @@ class _AddCarPageState extends State<AddCarPage> {
     );
   }
 
-  //Show a dialog box when user press button to add another car
+  //Show a dialog box that questions the user if they want to add another car
   void _showDialog() {
     showDialog(
         context: context,

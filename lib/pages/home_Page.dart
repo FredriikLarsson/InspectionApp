@@ -8,8 +8,9 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  int _currentIndex =
-      0; //Which icon in bottomnavigationbar is currently active.
+
+  //Which icon in bottomnavigationbar is currently active.
+  int _currentIndex = 0;
 
   //Different pages in the app.
   final List<Widget> _children = [
@@ -22,27 +23,27 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-/*    final List<Widget> children = _children();*/
-
     return Scaffold(
       appBar: AppBar(
         leading: Icon(Icons.ac_unit),
       ),
 
+      //View a specific page from the _children list based on _currentIndex variable.
       body: _children[_currentIndex],
-      //View a specific page from the _children list based on _currentIndex.
 
       bottomNavigationBar: Theme(
         data: Theme.of(context).copyWith(canvasColor: Colors.blue),
         child: BottomNavigationBar(
-          onTap: onTabTapped,
+
           //onTap run function to rebuild another page
+          onTap: onTabTapped,
           type: BottomNavigationBarType.fixed,
           selectedItemColor: Colors.indigo,
           unselectedItemColor: Colors.white,
           currentIndex: _currentIndex,
           items: const <BottomNavigationBarItem>[
-            BottomNavigationBarItem(icon: Icon(Icons.home), title: Text("Hem")),
+            BottomNavigationBarItem(
+                icon: Icon(Icons.home), title: Text("Hem")),
             BottomNavigationBarItem(
                 icon: Icon(Icons.account_box), title: Text("Konto")),
             BottomNavigationBarItem(
@@ -63,4 +64,5 @@ class _HomePageState extends State<HomePage> {
       _currentIndex = index;
     });
   }
+
 }
